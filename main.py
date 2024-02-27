@@ -75,6 +75,20 @@ class LicenseInformation:
     def submit(self):
         self.driver.find_element(By.XPATH,'//*[@id="form_rcdl:j_idt50"]').click()
 
+    def wait_for_redirect(self, timeout=10):
+        try:
+            WebDriverWait(self.driver, timeout).until(EC.url_changes(self.driver.current_url))
+        except TimeoutException:
+            print("Timeout waiting for redirect")
+
+    def html_convert(self):
+        # Wait for redirect to complete
+        self.wait_for_redirect()
+
+        # Capture and save HTML
+        html = self.driver.page_source
+        with open('info.html', 'w', encoding='utf-8') as f:
+            f.write(html)
 
     def close_browser(self):
         self.driver.quit()
@@ -98,15 +112,13 @@ if __name__ == "__main__":
         captcha = input('Enter Captcha: ')
         license_info.input_captcha(captcha)
         license_info.submit()
-
+        license_info.html_convert()
 
 
 
     finally:
-        time.sleep(300)
+        time.sleep(3000)
         license_info.close_browser()
 
     time.sleep(300)
-
-
 
