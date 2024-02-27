@@ -1,16 +1,24 @@
-# This is a sample Python script.
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from selenium.webdriver.chrome.service import Service
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+class LicenseInformation:
+    def __init__(self, chrome_driver_path):
+        self.service = Service(chrome_driver_path)
+        self.driver = None
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    def close_browser(self):
+        self.driver.quit()
+
+
+# Example usage:
+if __name__ == "__main__":
+    chrome_driver_path = "C:/Users/DELL/Desktop/chromedriver.exe"
+    license_info = LicenseInformation(chrome_driver_path)
+
+
+
+
