@@ -41,7 +41,43 @@ class LicenseInformation:
             print(f"An error occurred while entering date of birth: {e}")
             raise
 
+    def capture_and_save_captcha_image(self, xpath, save_path):
+        try:
+            img_base64 = self.driver.execute_script("""
+                var ele = arguments[0];
+                var cnv = document.createElement('canvas');
+                cnv.width = ele.width; cnv.height = ele.height;
+                cnv.getContext('2d').drawImage(ele, 0, 0);
+                return cnv.toDataURL('image/jpeg').substring(22);    
+                """, self.driver.find_element(By.XPATH, xpath))
 
+            image_data = base64.b64decode(img_base64)
+            image = Image.open(BytesIO(image_data))
+
+            # Save the image
+            image.save(save_path)
+
+            # Display the image
+            image.show()
+
+        except WebDriverException as e:
+            print(f"An error occurred while capturing and saving captcha image: {e}")
+            raise
+
+    def input_captcha(self, captcha):
+        try:
+            captcha_input = self.driver.find_element(By.XPATH, '//*[@id="form_rcdl:j_idt39:CaptchaID"]')
+            captcha_input.send_keys(captcha)
+        except WebDriverException as e:
+            print(f"An error occurred while entering captcha: {e}")
+            raise
+
+    def submit(self):
+        self.driver.find_element(By.XPATH,'//*[@id="form_rcdl:j_idt50"]').click()
+
+
+    def close_browser(self):
+        self.driver.quit()
 
 
 # Example usage:
@@ -58,4 +94,19 @@ if __name__ == "__main__":
         except TimeoutException:
             print("No DL found")
             exit()
+
+        captcha = input('Enter Captcha: ')
+        license_info.input_captcha(captcha)
+        license_info.submit()
+
+
+
+
+    finally:
+        time.sleep(300)
+        license_info.close_browser()
+
+    time.sleep(300)
+
+
 
