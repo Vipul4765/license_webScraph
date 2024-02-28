@@ -1,7 +1,7 @@
 import time
-
+import json
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException, TimeoutException
+from selenium.common.exceptions import WebDriverException, TimeoutException, NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from PIL import Image
 import base64
 from io import BytesIO
+from bs4 import BeautifulSoup
 
 
 class LicenseInformation:
@@ -24,8 +25,8 @@ class LicenseInformation:
         try:
             license_input = self.driver.find_element(By.XPATH, '//*[@id="form_rcdl:tf_dlNO"]')
             license_input.send_keys(license_number)
-        except WebDriverException as e:
-            print(f"An error occurred while entering license number: {e}")
+        except NoSuchElementException as e:
+            print(f"Error entering license number: {e}")
             raise
 
     def input_date_of_birth(self, date_of_birth):
@@ -38,7 +39,7 @@ class LicenseInformation:
             self.driver.execute_script(set_date_script, date_input_field)
             self.driver.execute_script("arguments[0].onchange();", date_input_field)
         except WebDriverException as e:
-            print(f"An error occurred while entering date of birth: {e}")
+            print(f"Error entering date of birth: {e}")
             raise
 
     def capture_and_save_captcha_image(self, xpath, save_path):
@@ -61,19 +62,19 @@ class LicenseInformation:
             image.show()
 
         except WebDriverException as e:
-            print(f"An error occurred while capturing and saving captcha image: {e}")
+            print(f"Error capturing and saving captcha image: {e}")
             raise
 
     def input_captcha(self, captcha):
         try:
             captcha_input = self.driver.find_element(By.XPATH, '//*[@id="form_rcdl:j_idt39:CaptchaID"]')
             captcha_input.send_keys(captcha)
-        except WebDriverException as e:
-            print(f"An error occurred while entering captcha: {e}")
+        except NoSuchElementException as e:
+            print(f"Error entering captcha: {e}")
             raise
 
     def submit(self):
-        self.driver.find_element(By.XPATH,'//*[@id="form_rcdl:j_idt50"]').click()
+        self.driver.find_element(By.XPATH, '//*[@id="form_rcdl:j_idt50"]').click()
 
     def wait_for_redirect(self, timeout=10):
         try:
@@ -93,6 +94,34 @@ class LicenseInformation:
     def close_browser(self):
         self.driver.quit()
 
+    def data_format_dict(self):
+        # Read the HTML file
+        with open('info.html', 'r', encoding='utf-8') as file:
+            html_content = file.read()
+
+        # Parse the HTML content
+        soup = BeautifulSoup(html_content, 'html.parser')
+
+        # Extract key-value pairs
+        key_value_pairs = {}
+
+        # Assuming each key is in a <span> tag and each value is in the <td> tag next to it
+        for span_tag in soup.find_all('span', class_='font-bold'):
+            key = span_tag.text.strip()
+            value = span_tag.find_next('td').text.strip()
+            key_value_pairs[key] = value
+
+        print(key_value_pairs)
+
+        # Convert to JSON
+        json_data = json.dumps(key_value_pairs, indent=2)
+
+        # Save to a new file
+        with open('output.json', 'w', encoding='utf-8') as json_file:
+            json_file.write(json_data)
+
+        print("JSON data has been saved to 'output.json'")
+
 
 # Example usage:
 if __name__ == "__main__":
@@ -101,8 +130,8 @@ if __name__ == "__main__":
 
     try:
         license_info.open_browser("https://parivahan.gov.in/rcdlstatus/?pur_cd=101")
-        license_info.input_license_number('UP-1720230001287')
-        license_info.input_date_of_birth("25-12-2002")
+        license_info.input_license_number('MH-0320140015542')
+        license_info.input_date_of_birth("21-06-1992")
         try:
             license_info.capture_and_save_captcha_image('//*[@id="form_rcdl:j_idt39:j_idt44"]', "captcha_image.jpg")
         except TimeoutException:
@@ -113,12 +142,12 @@ if __name__ == "__main__":
         license_info.input_captcha(captcha)
         license_info.submit()
         license_info.html_convert()
+        license_info.data_format_dict()
+        time.sleep(50000)
 
 
 
     finally:
-        time.sleep(3000)
         license_info.close_browser()
 
-    time.sleep(300)
 
