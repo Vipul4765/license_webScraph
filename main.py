@@ -170,7 +170,10 @@ if __name__ == "__main__":
 
 
 
+
+
     finally:
+        #close for browser
         license_info.close_browser()
 
 
