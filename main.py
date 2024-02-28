@@ -10,7 +10,7 @@ from PIL import Image
 import base64
 from io import BytesIO
 from bs4 import BeautifulSoup
-
+from json_file import DrivingLicenseParser
 
 class LicenseInformation:
     def __init__(self, chrome_driver_path):
@@ -127,11 +127,21 @@ class LicenseInformation:
 if __name__ == "__main__":
     chrome_driver_path = "C:/Users/DELL/Desktop/chromedriver.exe"
     license_info = LicenseInformation(chrome_driver_path)
+    license_number = input("Enter the dl no in format 'MH0320140015542”':" )
+    state_code = license_number[:2]
+    numeric_part = license_number[2:]
+
+    # Joining in the desired format
+    formatted_license_number = f"{state_code}-{numeric_part}"
+
+    #input for date of birth
+    date_of_birth = input("Enter the dob in format of 'DD-MM-YYYY'")
+
 
     try:
         license_info.open_browser("https://parivahan.gov.in/rcdlstatus/?pur_cd=101")
-        license_info.input_license_number('MH-0320140015542')
-        license_info.input_date_of_birth("21-06-1992")
+        license_info.input_license_number(formatted_license_number)
+        license_info.input_date_of_birth(date_of_birth)
         try:
             license_info.capture_and_save_captcha_image('//*[@id="form_rcdl:j_idt39:j_idt44"]', "captcha_image.jpg")
         except TimeoutException:
@@ -143,6 +153,19 @@ if __name__ == "__main__":
         license_info.submit()
         license_info.html_convert()
         license_info.data_format_dict()
+        html_file_path = 'C:/Users/DELL/PycharmProjects/license_webScraph/info.html'
+
+        # Create an instance of DrivingLicenseParser with the file path
+        parser = DrivingLicenseParser(html_file_path)
+
+        # Extract information using the object
+        parser.extract_information()
+
+        # Save the result to a JSON file
+        parser.save_to_json()
+
+        # Access the result_json attribute if needed
+        print(parser.result_json)
         time.sleep(50000)
 
 

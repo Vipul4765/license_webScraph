@@ -1,3 +1,35 @@
 {
-  "current_status": null
+  "current_status": "ACTIVE",
+  "holder_name": "V*P*LK*M*R",
+  "old_new_dl_no": "NA",
+  "source_of_data": "SARATHI",
+  "initial_issue_date": "14-Feb-2023",
+  "initial_issuing_office": "ASST.RTO, BAGHPAT",
+  "last_endorsed_date": "14-Feb-2023",
+  "last_endorsed_office": "ASST.RTO, BAGHPAT",
+  "last_completed_transaction": "ISSUE OF DRIVING LICENCE",
+  "driving_license_validity_details": {
+    "non_transport": {
+      "valid_from": "To:24-Dec-2042",
+      "valid_upto": "Transport"
+    },
+    "transport": {
+      "valid_from": "To:NA",
+      "valid_upto": "Hazardous Valid Till"
+    }
+  },
+  "hazardous_valid_till": "NA",
+  "hill_valid_till": "NA",
+  "class_of_vehicle_details": [
+    {
+      "cov_category": "NT",
+      "class_of_vehicle": "MCWG",
+      "cov_issue_date": "14-Feb-2023"
+    },
+    {
+      "cov_category": "NT",
+      "class_of_vehicle": "LMV",
+      "cov_issue_date": "14-Feb-2023"
+    }
+  ]
 }
