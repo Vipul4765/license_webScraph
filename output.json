@@ -1,20 +1,20 @@
 {
   "current_status": "ACTIVE",
-  "holder_name": "V*P*LK*M*R",
+  "holder_name": "A*M*DA*I S*A*K*",
   "old_new_dl_no": "NA",
   "source_of_data": "SARATHI",
-  "initial_issue_date": "14-Feb-2023",
-  "initial_issuing_office": "ASST.RTO, BAGHPAT",
-  "last_endorsed_date": "14-Feb-2023",
-  "last_endorsed_office": "ASST.RTO, BAGHPAT",
-  "last_completed_transaction": "ISSUE OF DRIVING LICENCE",
+  "initial_issue_date": "25-Apr-2014",
+  "initial_issuing_office": "RTO,MUMBAI (EAST)",
+  "last_endorsed_date": "06-Aug-2018",
+  "last_endorsed_office": "RTO,MUMBAI (EAST)",
+  "last_completed_transaction": "ISSUE OF DRIVING LICENCE , RENEWAL OF DL",
   "driving_license_validity_details": {
     "non_transport": {
-      "valid_from": "To:24-Dec-2042",
+      "valid_from": "To:24-Apr-2034",
       "valid_upto": "Transport"
     },
     "transport": {
-      "valid_from": "To:NA",
+      "valid_from": "To:31-Jul-2021",
       "valid_upto": "Hazardous Valid Till"
     }
   },
@@ -22,14 +22,19 @@
   "hill_valid_till": "NA",
   "class_of_vehicle_details": [
     {
-      "cov_category": "NT",
-      "class_of_vehicle": "MCWG",
-      "cov_issue_date": "14-Feb-2023"
+      "cov_category": "TR",
+      "class_of_vehicle": "LMV-TR",
+      "cov_issue_date": "25-Apr-2014"
+    },
+    {
+      "cov_category": "TR",
+      "class_of_vehicle": "3W-GV",
+      "cov_issue_date": "25-Apr-2014"
     },
     {
       "cov_category": "NT",
-      "class_of_vehicle": "LMV",
-      "cov_issue_date": "14-Feb-2023"
+      "class_of_vehicle": "MCWG",
+      "cov_issue_date": "25-Apr-2014"
     }
   ]
 }

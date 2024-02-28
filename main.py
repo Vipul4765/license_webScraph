@@ -127,7 +127,7 @@ class LicenseInformation:
 if __name__ == "__main__":
     chrome_driver_path = "C:/Users/DELL/Desktop/chromedriver.exe"
     license_info = LicenseInformation(chrome_driver_path)
-    license_number = input("Enter the dl no in format 'MH0320140015542”':" )
+    license_number = input('Enter your license number "MH0320140015542" format: ' )
     state_code = license_number[:2]
     numeric_part = license_number[2:]
 
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     formatted_license_number = f"{state_code}-{numeric_part}"
 
     #input for date of birth
-    date_of_birth = input("Enter the dob in format of 'DD-MM-YYYY'")
+    date_of_birth = input('Enter Your DOB in "DD-MM-YYYY" format: ' )
 
 
     try:
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
         # Access the result_json attribute if needed
         print(parser.result_json)
-        time.sleep(50000)
+
 
 
 
